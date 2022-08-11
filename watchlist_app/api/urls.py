@@ -5,6 +5,6 @@ from watchlist_app.api.views import MovieListView, MovieDetailView
 
 urlpatterns = [
     path('list/', MovieListView.as_view(), name='movie-list'),
-    path('<int:pk>/', MovieDetailView.as_view(), name='movie-details'),
+    path('list/<int:pk>/', MovieDetailView.as_view(), name='movie-details'),
 
 ]
