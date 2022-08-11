@@ -10,4 +10,4 @@ class MovieSerializer(serializers.Serializer):
     active = serializers.BooleanField()
 
     def create(self, validated_data):
-        return Movie.objects.creat(**validated_data)
+        return Movie.objects.create(**validated_data)
