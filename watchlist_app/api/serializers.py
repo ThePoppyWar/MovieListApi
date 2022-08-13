@@ -1,9 +1,10 @@
+from tkinter import W
 from rest_framework import serializers
 
 from watchlist_app.models import Review, WatchList, StreamPlatform
 
 class ReviewSerializer(serializers.ModelSerializer):
-
+    watchList = serializers.CharField(allow_blank=True, required=False, read_only = True)
     class Meta:
         model = Review
         fields = '__all__'
