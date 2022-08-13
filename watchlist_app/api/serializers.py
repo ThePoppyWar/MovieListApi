@@ -4,16 +4,6 @@ from watchlist_app.models import WatchList, StreamPlatform
 
 
 
-
-class StreamPlatformSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = StreamPlatform
-        fields = '__all__'
-
-
-
-
 class WatchListSerializer(serializers.ModelSerializer):
     # len_name = serializers.SerializerMethodField()
     class Meta:
@@ -23,6 +13,13 @@ class WatchListSerializer(serializers.ModelSerializer):
         # exclude = ['name']
 
 
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    watchlist = WatchListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = StreamPlatform
+        fields = '__all__'
 
 
         
