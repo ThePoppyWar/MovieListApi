@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.core.validators import MinValueValidator, MaxLengthValidator
+from django.forms import DateTimeField
 
 # Create your models here.
 
@@ -21,3 +22,17 @@ class WatchList(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Review(models.Model):
+    rating = models.PositiveBigIntegerField(validators=[MinValueValidator(1), MinValueValidator(5)])
+    description = models.CharField(max_length=200, null=True)
+    watchList = models.ForeignKey(WatchList, on_delete=models.CASCADE, related_name="reviews")
+    active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    update= models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.rating) + " | " + self.watchList.title
+
+
