@@ -31,7 +31,7 @@ class ReviewCreate(generics.CreateAPIView):
         watchlist = WatchList.objects.get(pk=pk)
 
         review_user = self.request.user
-        review_queryset = Review.objects.filter(watchList=watchlist, review_user=review_user)
+        review_queryset = Review.objects.filter(watchlist=watchlist, review_user=review_user.id)
 
         if review_queryset.exists():
             raise ValidationError('You have already reviewed this movie!')
@@ -44,17 +44,17 @@ class ReviewCreate(generics.CreateAPIView):
         watchlist.number_rating = watchlist.number_rating + 1
         watchlist.save()
 
-        serializer.save(watchList=watchlist, review_user=review_user)
+        serializer.save(watchlist=watchlist, review_user=review_user)
 
 
 class ReviewList(generics.ListCreateAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [AdminOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
-        return Review.objects.filter(watchList=pk)
+        return Review.objects.filter(watchlist=pk)
 
 
 class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -102,8 +102,8 @@ class StreamPlatformSet(viewsets.ModelViewSet):
 
 #     def retrieve(self, request, pk=None):
 #         queryset = StreamPlatform.objects.all()
-#         watchList = get_object_or_404(queryset, pk=pk)
-#         serializer = StreamPlatformSerializer(watchList)
+#         watchlist = get_object_or_404(queryset, pk=pk)
+#         serializer = StreamPlatformSerializer(watchlist)
 #         return Response(serializer.data)
 
 #     def create(self, request):

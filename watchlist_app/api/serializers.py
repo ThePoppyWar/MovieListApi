@@ -8,7 +8,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        exclude=('watchList', 'avg_rating', 'number_rating')
+        exclude=('watchlist',)
         # fields = '__all__'
 
 

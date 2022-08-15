@@ -6,14 +6,14 @@ from watchlist_app.api.views import ReviewCreate, ReviewDetailView, StreamPlatfo
 
 
 router = DefaultRouter()
-router.register(r'stream', StreamPlatformSet, basename = 'streamplaform')
+router.register('stream', StreamPlatformSet, basename = 'streamplaform')
 
 
 urlpatterns = [
     path('list/',WatchListView.as_view(), name='movie-list'),
     path('<int:pk>/', WatchDetailView.as_view(), name='movie-details'),
 
-    path(r'', include(router.urls)),
+    path('', include(router.urls)),
 
     # path('stream/', StreamPlatformView.as_view(), name = 'stream-list'),
     # path('stream/<int:pk>', StreamPlatformDetailView.as_view(), name = 'streamplatform-detail'),
@@ -21,10 +21,10 @@ urlpatterns = [
     # path('review/', ReviewList.as_view(), name='review-list'),
     # path('review/<int:pk>', ReviewDetailView.as_view(), name='review-detail'),
 
-    path('<int:pk>/review-create', ReviewCreate.as_view(), name='review-create'),
+    path('<int:pk>/review-create/', ReviewCreate.as_view(), name='review-create'),
 
-    path('<int:pk>/reviews', ReviewList.as_view(), name='review-list'),
-    path('review/<int:pk>', ReviewDetailView.as_view(), name='review-detail'),
+    path('<int:pk>/reviews/', ReviewList.as_view(), name='review-list'),
+    path('review/<int:pk>/', ReviewDetailView.as_view(), name='review-detail'),
 
 ]
 
