@@ -31,7 +31,7 @@ class ReviewCreate(generics.CreateAPIView):
         watchlist = WatchList.objects.get(pk=pk)
 
         review_user = self.request.user
-        review_queryset = Review.objects.filter(watchlist=watchlist, review_user=review_user.id)
+        review_queryset = Review.objects.filter(watchlist=watchlist, review_user=review_user)
 
         if review_queryset.exists():
             raise ValidationError('You have already reviewed this movie!')
@@ -47,7 +47,7 @@ class ReviewCreate(generics.CreateAPIView):
         serializer.save(watchlist=watchlist, review_user=review_user)
 
 
-class ReviewList(generics.ListCreateAPIView):
+class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
@@ -89,6 +89,7 @@ class ReviewDetailView(generics.RetrieveUpdateDestroyAPIView):
 class StreamPlatformSet(viewsets.ModelViewSet):
         serializer_class = StreamPlatformSerializer
         queryset =StreamPlatform.objects.all()
+   
 
 
 
@@ -165,10 +166,10 @@ class WatchListView(APIView):
         else:
             return Response(serializer.errors)
 
-    def delete(self, request, pk):
-        platform = StreamPlatform.objects.get(pk=pk)
-        platform.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # def delete(self, request, pk):
+    #     platform = StreamPlatform.objects.get(pk=pk)
+    #     platform.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class WatchDetailView(APIView):
@@ -178,7 +179,10 @@ class WatchDetailView(APIView):
         except WatchList.DoesNotExist:
             return Response({'error': "Stream not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = WatchListSerializer(movie)
+        print(movie)
+        print(serializer.data)
         return Response(serializer.data)
+        
 
     def put(self, request, pk):
         movie = WatchList.objects.get(pk=pk)
