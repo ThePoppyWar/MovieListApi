@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'watchlist_app',
     'rest_framework',
     'rest_framework.authtoken',
-    'user_app',
 ]
 
 MIDDLEWARE = [

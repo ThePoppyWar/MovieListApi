@@ -162,6 +162,7 @@ class WatchListView(APIView):
         serializer = WatchListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
@@ -179,8 +180,6 @@ class WatchDetailView(APIView):
         except WatchList.DoesNotExist:
             return Response({'error': "Stream not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = WatchListSerializer(movie)
-        print(movie)
-        print(serializer.data)
         return Response(serializer.data)
         
 
